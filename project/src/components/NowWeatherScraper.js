@@ -7,7 +7,11 @@ import TodayWeatherScraper from './TodayWeatherScraper';
 export default function NowWeatherScraper(props) {
     const [nowweather, setNowWeather] = React.useState([]);
 
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${props.city}&appid=${token1}&units=metric&lang=ru`;
+    city = props.city
+
+    // console.log("city" + city)
+
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${token1}&units=metric&lang=ru`;
 
     useEffect(() => {
         axios.get(url)
