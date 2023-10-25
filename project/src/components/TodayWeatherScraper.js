@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
+import Table from 'react-bootstrap/Table'
 
 import { token1 } from '../token';
 
@@ -20,25 +21,36 @@ export default function TodayWeatherScraper(props) {
                 // console.log(response.data.list);
             })
             .catch(error => { console.log(error) })
-    }, []);
+    }, [url]);
 
     // console.log(todayweather);
 
     return (
         <React.Fragment>
-            <h1>Следующий 12 часов</h1>
-            {todayweather ? todayweather.map(
-                (weather, index) => (
-                    <p key={index}>
-                        Дата и Время: {weather.dt_txt} <br />
-                        Температура: {weather.main.temp} °C<br />
-                        Небо: {weather.weather[0].description} <br />
-                        Как будто: {weather.main.feels_like} °C<br />
-                        Влажность: {weather.main.humidity} % <br />
-                        Скорость ветра: {weather.wind.speed} MPH <br /><br />
-                    </p>
-                )
-            ) : null}
+            <Table stripped bordered hover variant="dark" size="sm">
+                <thead>
+                    <tr>
+                        <th width="190">Дата и Время</th>
+                        <th width="190">Температура</th>
+                        <th width="190">Небо</th>
+                        <th width="190">Как будто</th>
+                        <th width="190">Влажность</th>
+                        <th width="190">Скорость ветра</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {todayweather ? todayweather.map((weather) => (
+                        <tr>
+                            <td>{weather.dt_txt}</td>
+                            <td>{weather.main.temp} °C</td>
+                            <td>{weather.weather[0].description}</td>
+                            <td>{weather.main.feels_like} °C</td>
+                            <td>{weather.main.humidity} %</td>
+                            <td>{weather.wind.speed} КМ</td>
+                        </tr>
+                    )) : null}
+                </tbody>
+            </Table>
         </React.Fragment>
     )
 }

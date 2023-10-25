@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
+import Table from 'react-bootstrap/Table'
 
 import { token1 } from '../token';
-import TodayWeatherScraper from './TodayWeatherScraper';
+// import TodayWeatherScraper from './TodayWeatherScraper';
 
 export default function NowWeatherScraper(props) {
     const [nowweather, setNowWeather] = React.useState([]);
 
-    city = props.city
+    const city = props.city
 
-    // console.log("city" + city)
+    // console.log("NowWeatherScraper " + city)
 
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${token1}&units=metric&lang=ru`;
 
@@ -25,17 +26,29 @@ export default function NowWeatherScraper(props) {
     // console.log(nowweather);
 
     return (
-        <React.Fragment>
-            <hr />
-            <h1>Сейчас</h1>
-            <h2>Город: {nowweather.name}</h2>
-            {nowweather.main ? <p>Температура: {nowweather.main.temp.toFixed()} °C</p> : null}
-            {nowweather.weather ? <p>Небо: {nowweather.weather[0].description}</p> : null}
-            {nowweather.main ? <p>Как будто: {nowweather.main.feels_like.toFixed()} °C</p> : null}
-            {nowweather.main ? <p>Влажность: {nowweather.main.humidity} %</p> : null}
-            {nowweather.wind ? <p>Скорость ветра: {nowweather.wind.speed.toFixed()} MPH</p> : null}
-            <hr />
-            {nowweather.coord ? <TodayWeatherScraper coord={nowweather.coord} /> : null}
-        </React.Fragment>
+        <Table stripped bordered hover variant="dark" size="sm">
+            <thead>
+                <tr>
+                    <th width="170">Локация</th>
+                    <th width="170">Температура</th>
+                    <th width="170">Небо</th>
+                    <th width="170">Как будто</th>
+                    <th width="170">Влажность</th>
+                    <th width="170">Скорость ветра</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{nowweather.name}</td>
+                    <td>{nowweather.main ? <p>{nowweather.main.temp.toFixed()} °C</p> : null}</td>
+                    <td>{nowweather.weather ? <p>{nowweather.weather[0].description}</p> : null}</td>
+                    <td>{nowweather.main ? <p>{nowweather.main.feels_like.toFixed()} °C</p> : null}</td>
+                    <td>{nowweather.main ? <p>{nowweather.main.humidity} %</p> : null}</td>
+                    <td>{nowweather.wind ? <p>{nowweather.wind.speed.toFixed()} КМ</p> : null}</td>
+                </tr>
+            </tbody>
+        </Table>
     )
 }
+
+// {nowweather.coord ? <TodayWeatherScraper coord={nowweather.coord} /> : null}
