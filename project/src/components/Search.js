@@ -1,25 +1,46 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.css';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Geocoder from 'react-native-geocoding';
+
+import 'bootstrap/dist/css/bootstrap.css';
 
 import NowWeatherScraper from './NowWeatherScraper';
+import { google_token } from '../token';
+
+Geocoder.init(google_token);
 
 export default class Search extends React.Component {
     state = {
         toDashboard: false,
-        location: null,
+        location: null
     }
 
-    /* Функция handleSubmit — это обработчик событий отправки формы. Когда форма отправляется, она
-    предотвращает поведение отправки формы по умолчанию (которое может привести к обновлению страницы)
-    путем вызова e.preventDefault(). */
     handleSubmit = (e) => {
         e.preventDefault();
         this.setState(() => ({
             toDashboard: true,
             location: document.getElementById('cityname').value,
         }));
+    }
+
+    getLocation = () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(this.showPosition);
+        } else {
+            alert("Геолокация не поддерживается этим браузером.");
+        }
+    }
+
+    // Если координаты отличаются попробуйте подключить свое устройство к мобильному интернету.
+    showPosition = (position) => {
+        Geocoder.from(position.coords.latitude, position.coords.longitude)
+            .then(json => {
+                var addressComponent = json.results[0].address_components[3].long_name;
+                document.getElementById('geolocation').innerHTML = addressComponent
+                // console.log(addressComponent);
+            })
+            .catch(error => console.warn(error));
     }
 
     render() {
@@ -34,12 +55,17 @@ export default class Search extends React.Component {
                     display: 'block',
                     width: 500,
                     padding: 30,
-                    color: 'white',
+                    color: 'black',
                     fontSize: '30px',
                     backgroundColor: 'lightslategray',
                     borderRadius: 10,
                     fontFamily: 'Arial',
                 }}>
+                    <h6>Если координаты отличаются попробуйте подключить свое устройство к мобильному интернету.</h6>
+                    <hr />
+                    <div id='geolocation'></div>
+                    <Button variant="warning" onClick={this.getLocation}>Найти автоматически</Button>
+                    <hr />
                     <Form onSubmit={this.handleSubmit}>
                         <Form.Group>
                             <Form.Label>Город:</Form.Label>

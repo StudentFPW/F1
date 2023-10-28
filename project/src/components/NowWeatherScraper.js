@@ -10,7 +10,7 @@ export default function NowWeatherScraper(props) {
 
     const city = props.city
 
-    // console.log("NowWeatherScraper :" + city)
+    // console.log(city)
 
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${token1}&units=metric&lang=ru`;
 
@@ -18,12 +18,15 @@ export default function NowWeatherScraper(props) {
         axios.get(url)
             .then(response => {
                 setNowWeather(response.data);
-                // console.log("setNowWeather: " + response.data);
+                // console.log(response.data);
             })
-            .catch(error => { console.log(error) })
+            .catch(error => {
+                alert("Город введен неправильно")
+                // console.log(error)
+            })
     }, [url]);
 
-    // console.log("nowweather: " + nowweather);
+    // console.log(nowweather);
 
     return (
         <React.Fragment>
@@ -54,7 +57,11 @@ export default function NowWeatherScraper(props) {
                 <a href={`/weekweather/${nowweather.coord.lat}/${nowweather.coord.lon}/`} target="_blank" rel="noreferrer">
                     <Button variant="success">Недельный прогноз погоды →</Button>
                 </a>
-                : null}
+                :
+                <a href="/" rel="noreferrer" title="Что бы вы хотели?">
+                    <Button variant="warning">← Назад</Button>
+                </a>
+            }
         </React.Fragment >
     )
 }

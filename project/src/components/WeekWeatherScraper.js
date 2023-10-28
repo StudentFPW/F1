@@ -14,18 +14,18 @@ function WeekWeatherScraper(props) {
 
     // console.log("latitude: " + latitude, "longitude: " + longitude);
 
-    const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${token1}&cnt=100&units=metric&lang=ru`;
+    const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${token1}&cnt=40&units=metric&lang=ru`;
 
     useEffect(() => {
         axios.get(url)
             .then(response => {
                 setWeekWeather(response.data.list);
-                // console.log("setWeekWeather: " + response.data.list);
+                // console.log(response.data.list);
             })
             .catch(error => { console.log(error) })
     }, [url]);
 
-    // console.log("weekweather: " + weekweather);
+    // console.log(weekweather);
 
     return (
         <React.Fragment>
@@ -53,6 +53,7 @@ function WeekWeatherScraper(props) {
                     )) : null}
                 </tbody>
             </Table>
+
             <a href="/" rel="noreferrer">
                 <Button variant="warning">← Назад</Button>
             </a>
