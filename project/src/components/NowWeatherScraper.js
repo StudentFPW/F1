@@ -6,11 +6,11 @@ import Button from 'react-bootstrap/Button';
 import { token1 } from '../token';
 
 export default function NowWeatherScraper(props) {
-    const [nowweather, setNowWeather] = React.useState([]);
+    const [nowWeather, setNowWeather] = React.useState([]);
 
-    const city = props.city
+    const city = props.city;
 
-    // console.log(city)
+    // console.log(city);
 
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${token1}&units=metric&lang=ru`;
 
@@ -21,12 +21,12 @@ export default function NowWeatherScraper(props) {
                 // console.log(response.data);
             })
             .catch(error => {
-                alert("Город введен неправильно")
-                // console.log(error)
+                alert("Город введен неправильно");
+                // console.log(error);
             })
     }, [url]);
 
-    // console.log(nowweather);
+    // console.log(nowWeather);
 
     return (
         <React.Fragment>
@@ -43,18 +43,18 @@ export default function NowWeatherScraper(props) {
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{nowweather.name}</td>
-                        <td>{nowweather.main ? <p>{nowweather.main.temp.toFixed()} °C</p> : null}</td>
-                        <td>{nowweather.weather ? <p>{nowweather.weather[0].description}</p> : null}</td>
-                        <td>{nowweather.main ? <p>{nowweather.main.feels_like.toFixed()} °C</p> : null}</td>
-                        <td>{nowweather.main ? <p>{nowweather.main.humidity} %</p> : null}</td>
-                        <td>{nowweather.wind ? <p>{nowweather.wind.speed.toFixed()} КМ</p> : null}</td>
+                        <td>{nowWeather.name}</td>
+                        <td>{nowWeather.main ? <p>{nowWeather.main.temp.toFixed()} °C</p> : null}</td>
+                        <td>{nowWeather.weather ? <p>{nowWeather.weather[0].description}</p> : null}</td>
+                        <td>{nowWeather.main ? <p>{nowWeather.main.feels_like.toFixed()} °C</p> : null}</td>
+                        <td>{nowWeather.main ? <p>{nowWeather.main.humidity} %</p> : null}</td>
+                        <td>{nowWeather.wind ? <p>{nowWeather.wind.speed.toFixed()} КМ</p> : null}</td>
                     </tr>
                 </tbody>
             </Table>
 
-            {nowweather.coord ?
-                <a href={`/weekweather/${nowweather.coord.lat}/${nowweather.coord.lon}/`} target="_blank" rel="noreferrer">
+            {nowWeather.coord ?
+                <a href={`/weekweather/${nowWeather.coord.lat}/${nowWeather.coord.lon}/`} target="_blank" rel="noreferrer">
                     <Button variant="success">Недельный прогноз погоды →</Button>
                 </a>
                 :

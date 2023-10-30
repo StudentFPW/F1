@@ -7,32 +7,49 @@ import { token1 } from '../token';
 import withRouter from './withRouter/withRouter';
 
 function WeekWeatherScraper(props) {
-    const [weekweather, setWeekWeather] = React.useState([]);
+    const [weekWeather, setWeekWeather] = React.useState([]);
 
-    const latitude = props.params.lat
-    const longitude = props.params.lon
+    const latitude = props.params.lat;
+    const longitude = props.params.lon;
 
     // console.log("latitude: " + latitude, "longitude: " + longitude);
 
     const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${token1}&cnt=40&units=metric&lang=ru`;
 
+    const weatherCollector = (response) => {
+        let dateAndWeather = {};
+        let onlyWeather = [];
+        for (let i in response.data.list) {
+            const date = response.data.list[i].dt_txt.slice(0, 10);
+            const weather = response.data.list[i];
+            dateAndWeather[date] = weather;
+        }
+        for (let i in dateAndWeather) {
+            onlyWeather.push(dateAndWeather[i]);
+        }
+        // console.log(dateAndWeather);
+        // console.log(onlyWeather);
+        setWeekWeather(onlyWeather);
+    };
+
     useEffect(() => {
         axios.get(url)
             .then(response => {
-                setWeekWeather(response.data.list);
-                // console.log(response.data.list);
+                weatherCollector(response);
             })
-            .catch(error => { console.log(error) })
+            .catch(error => {
+                alert("Что-то пошло не так!");
+            })
     }, [url]);
 
-    // console.log(weekweather);
+    // console.log(weekWeather);
 
     return (
         <React.Fragment>
             <Table bordered hover variant="dark" size="sm" stripped="true">
                 <thead>
                     <tr>
-                        <th width="170">Дата и Время</th>
+                        <th width="170">Дата</th>
                         <th width="170">Температура</th>
                         <th width="170">Небо</th>
                         <th width="170">Как будто</th>
@@ -41,9 +58,9 @@ function WeekWeatherScraper(props) {
                     </tr>
                 </thead>
                 <tbody>
-                    {weekweather ? weekweather.map((weather, index) => (
+                    {weekWeather ? weekWeather.map((weather, index) => (
                         <tr key={index}>
-                            <td>{weather.dt_txt}</td>
+                            <td>{weather.dt_txt.slice(0, 10)}</td>
                             <td>{weather.main.temp} °C</td>
                             <td>{weather.weather[0].description}</td>
                             <td>{weather.main.feels_like} °C</td>

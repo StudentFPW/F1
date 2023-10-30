@@ -3,18 +3,16 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Geocoder from 'react-native-geocoding';
 
-import 'bootstrap/dist/css/bootstrap.css';
-
 import NowWeatherScraper from './NowWeatherScraper';
-import { google_token } from '../token';
+import { googleToken } from '../token';
 
-Geocoder.init(google_token);
+Geocoder.init(googleToken);
 
 export default class Search extends React.Component {
     state = {
         toDashboard: false,
         location: null
-    }
+    };
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -37,10 +35,12 @@ export default class Search extends React.Component {
         Geocoder.from(position.coords.latitude, position.coords.longitude)
             .then(json => {
                 var addressComponent = json.results[0].address_components[3].long_name;
-                document.getElementById('geolocation').innerHTML = addressComponent
+                document.getElementById('geolocation').innerHTML = addressComponent;
                 // console.log(addressComponent);
             })
-            .catch(error => console.warn(error));
+            .catch(error => {
+                alert("Геолокация не поддерживается этим браузером.");
+            });
     }
 
     render() {
