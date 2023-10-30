@@ -6,6 +6,18 @@ import Button from 'react-bootstrap/Button';
 import { token1 } from '../token';
 import withRouter from './withRouter/withRouter';
 
+/**
+ * Функция WeekWeatherScraper — это компонент React, который извлекает данные о погоде для заданной
+ * широты и долготы и отображает их в формате таблицы.
+ * @param props - Параметр props в функции WeekWeatherScraper — это объект, содержащий свойства,
+ * передаваемые компоненту. Он используется для доступа к свойству «params», которое представляет собой
+ * объект, содержащий значения «lat» и «lon». Эти значения используются для создания API.
+ * @returns Компонент WeekWeatherScraper возвращает таблицу, в которой отображаются данные о погоде для
+ * каждого дня недели. Таблица включает столбцы с датой, температурой, состоянием неба, температурой по
+ * ощущениям, влажностью и скоростью ветра. Данные извлекаются из API OpenWeatherMap с использованием
+ * широты и долготы, предоставленных в качестве реквизита. Если данные успешно получены, они
+ * сохраняются в состоянии weekWeather.
+ */
 function WeekWeatherScraper(props) {
     const [weekWeather, setWeekWeather] = React.useState([]);
 
@@ -14,6 +26,7 @@ function WeekWeatherScraper(props) {
 
     // console.log("latitude: " + latitude, "longitude: " + longitude);
 
+    // Тут указал cnt=40 потому что не хотел мелочиться и получить все данные
     const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${token1}&cnt=40&units=metric&lang=ru`;
 
     const weatherCollector = (response) => {

@@ -8,6 +8,8 @@ import { googleToken } from '../token';
 
 Geocoder.init(googleToken);
 
+/* Класс Search — это компонент React, который позволяет пользователям искать информацию о погоде,
+вводя название города или используя свое текущее местоположение. */
 export default class Search extends React.Component {
     state = {
         toDashboard: false,
@@ -52,16 +54,13 @@ export default class Search extends React.Component {
             <React.Fragment>
                 <div style={{
                     margin: 'auto',
-                    display: 'block',
-                    width: 500,
+                    width: 600,
                     padding: 30,
-                    color: 'black',
                     fontSize: '30px',
                     backgroundColor: 'lightslategray',
                     borderRadius: 10,
-                    fontFamily: 'Arial',
                 }}>
-                    <h6>Если координаты отличаются попробуйте подключить свое устройство к мобильному интернету.</h6>
+                    <h5>Если координаты отличаются попробуйте подключить свое устройство к мобильному интернету.</h5>
                     <hr />
                     <div id='geolocation'></div>
                     <Button variant="warning" onClick={this.getLocation}>Найти автоматически</Button>
